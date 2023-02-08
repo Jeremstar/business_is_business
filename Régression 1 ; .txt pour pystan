@@ -1,0 +1,19 @@
+data {
+  int N; // nombre d'observations
+  int P; // nombre de caractéristiques
+  vector[P] x[N]; // vecteur des caractéristiques pour chaque observation
+  int h[N]; // comptes
+}
+
+parameters {
+  vector[P] theta1; // vecteur de paramètres θ(1)
+  real<lower=0> sigma1; // paramètre σ(1)
+}
+
+model {
+  vector[N] mu1;
+  mu1 = exp(x * theta1);
+  for (n in 1:N) {
+    h[n] ~ negative_binomial(mu1[n], sigma1);
+  }
+}
